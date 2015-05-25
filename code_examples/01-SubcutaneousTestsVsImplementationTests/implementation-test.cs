@@ -18,7 +18,7 @@ public class StudentControllerTests
 		_studentRepository.GetAll().Returns(expectedStudents);
 		
 		_controller.Index()
-			.ShouldRenderDefaultAction()
+			.ShouldRenderDefaultView()
 			.WithModel<List<StudentViewModel>>(vm => {
 				vm.Count.ShouldBe(expectedStudents.Count);
 				vm[0].Name.ShouldBe(expectedStudents[0].FullName);
