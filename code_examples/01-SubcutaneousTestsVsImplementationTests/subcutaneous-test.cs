@@ -24,7 +24,7 @@ public class StudentControllerTests
 			.WithModel<List<StudentViewModel>>(vm => viewModel = vm);
 			
 		viewModel.Select(s => s.Name).ShouldBe(
-			_existingStudents.OrderBy(s => s.FullName).Select(s => s.FullName))
+			_existingStudents.OrderBy(s => s.FullName).Select(s => s.FullName));
 	}
 	
 	private StudentController _controller;
