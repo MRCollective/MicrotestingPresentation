@@ -15,32 +15,25 @@ public void GivenDemographicWithStateAndAgeRange_WhenCheckingIfTheDemographicApp
 
     var applies = demographic.Contains(member, now);
 
-    Assert.That(applies, Is.EqualTo(state == State.Wa && (age == 18 || age == 19)));
+    Assert.That(applies, Is.EqualTo(state == State.WA && (age == 18 || age == 19)));
 }
 
 ...
 
 [Test]
-public void GivenProductsWithCurrentCampaignWithSomeThatApplyToTheMember_WhenQuerying_ThenReturnTheProductsThatApplyToTheMember()
+public void GivenProductsWithVarietyOfStateRules_WhenQuerying_ThenOnlyReturnTheProductsThatApplyToTheMember()
 {
-    var member = ObjectMother.Members.WAMember.WithAge(10, _now).Build();
-    var products = Builder<ProductBuilder>.CreateListOfSize(3)
-        .TheFirst(1).WithCampaign(_now,
-            ObjectMother.Campaigns.Current(_now).ForAllMembers()
-        )
-        .TheNext(1).WithCampaign(_now,
-            ObjectMother.Campaigns.Current(_now).ForState(State.Act)
-        )
-        .TheNext(1).WithCampaign(_now,
-            ObjectMother.Campaigns.Current(_now)
-                .ForState(State.Wa)
-                .WithMinimumAge(9)
-                .WithMaximumAge(11)
-        )
+    var member = ObjectMother.Members.WAMember.Build();
+    var products = ProductBuilder.CreateListOfSize(3)
+        .TheFirst(1).WithCampaign(c => c.ForAllMembers())
+        .TheNext(1).WithCampaign(c => c.ForState(State.ACT))
+        .TheNext(1).WithCampaign(c => c.ForState(member.State))
         .BuildList();
-    products.ToList().ForEach(p => Session.Save(p));
+    Session.SaveAll(products);
 
-    var result = Execute(new GetProductsForMember(_now, member));
+    var result = Execute(new GetProductsForMember(member));
 
-    Assert.That(result.Select(p => p.Name).ToArray(), Is.EqualTo(new[] { products[0].Name, products[2].Name }));
+    var expectedIds = products.Where(p => p == Product.AllMembers || p.State == member.State).Select(p => p.Id).ToArray();
+    result.Select(p => p.Id).ToArray()
+        .ShouldBe(expectedIds);
 }
