@@ -2,8 +2,7 @@ public class ViewExistingStudentsScenario : SubcutaneousMvcScenario<StudentContr
 {
 	public void GivenExistingStudents()
 	{
-		_existingStudents = StudentBuilder.CreateListOfSize(3);
-		SeedContext.Save(_existingStudents);
+		_existingStudents = SeedContext.Save(StudentBuilder.CreateListOfSize(3));
 	}
 	
 	public void WhenUserViewsStudents()
