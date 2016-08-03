@@ -12,8 +12,44 @@ public class DateTimeProvider : IDateTimeProvider
         return DateTimeOffset.UtcNow;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Basic hand-rolled mock
+public class StaticDateTimeProvider : IDateTimeProvider
+{
+    public StaticDateTimeProvider()
+    {
+        _now = DateTimeOffset.UtcNow;
+    }
+
+    public DateTimeOffset Now()
+    {
+        return _now;
+    }
+
+    private DateTimeOffset _now;
+}
  
-// Hand-rolled mock
+
+
+
+
+
+
+
+
+// Behaviourally codified hand-rolled mock
 public class StaticDateTimeProvider : IDateTimeProvider
 {
     private DateTimeOffset _now;
@@ -51,3 +87,29 @@ public class StaticDateTimeProvider : IDateTimeProvider
         return this;
     }
 }
+
+
+// e.g.
+//
+// Provide(new StaticDateTimeProvider(Resolve<IDateTimeProvider>().Now().Add(TimeSpan.FromHours(1))));
+//
+// vs
+//
+// Resolve<StaticDateTimeProvider>().MoveTimeForward(TimeSpan.FromHours(1));
+
+
+
+
+
+
+
+
+
+// What about this?
+//
+// using (Resolve<StaticDateTimeProvider>().TemporarilyChangeBy(TimeSpan.FromHours(4)))
+// {
+//      // Do stuff...
+// }
+//
+// Now is back what is was again...

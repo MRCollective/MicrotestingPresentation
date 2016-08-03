@@ -1,24 +1,43 @@
-public class ViewExistingStudentsScenario : SubcutaneousMvcScenario<StudentController>
+public class ViewExistingStudentsScenario
 {
+	public ViewExistingStudentsScenario()
+	{
+		_fixture = new DatabaseFixture();
+		_controller = new StudentController(new StudentRepository(_fixture.Context));
+	}
+
 	public void GivenExistingStudents()
 	{
-		_existingStudents = SeedContext.Save(StudentBuilder.CreateListOfSize(3));
+		var expectedStudents = new List<Student>
+		{
+			new Student("Joe", "Bloggs"),
+			new Student("Jane", "Smith")			
+		};
+		_existingStudents = _fixture.SeedContext.Save(expectedStudents);
 	}
 	
 	public void WhenUserViewsStudents()
 	{
-		ExecuteControllerAction(c => c.Index());
+		_actionResult = _controller.Index();
 	}
 	
 	public void ThenUserShouldSeeStudentsOrderedByName()
 	{
 		List<StudentViewModel> viewModel;
-		ActionResult.ShouldRenderDefaultView()
+		_actionResult.ShouldRenderDefaultView()
 			.WithModel<List<StudentViewModel>>(vm => viewModel = vm);
 			
 		viewModel.Select(s => s.Name).ShouldBe(
 			_existingStudents.OrderBy(s => s.FullName).Select(s => s.FullName))
 	}
+
+	[Test]
+	public void ExecuteScenario()
+	{
+		this.Bddfy();
+	}
 	
 	private List<Student> _existingStudents;
+	private ActionResult _actionResult;
+	private DatabaseFixture _fixture;
 }

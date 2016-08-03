@@ -1,0 +1,47 @@
+{
+  "Products": [
+    {
+      "Type": "NBN",
+      "Address": {
+        "State": "WA",
+        "Postcode": "6000",
+        "Locality": "PERTH",
+        "StreetType": "St",
+        "StreetNumber": "1",
+        "StreetName": "Main"
+      },
+      "Properties": {
+        "Username": "nbnfun123",
+        "Plan": "NBN 50 MBit",
+        "ContractPeriod": "24-month"
+      }
+    },
+    {
+        "Type": "VOIP",
+        "Properties": {
+            "Plan": "VOIP Home 1"
+        }
+    },
+    {
+        "Type": "InternationalCallsBonusOption"
+    }
+  ],
+  "Customer": {
+      "Title": "Mr",
+      "Surname": "Bloggs",
+      "FirstName": "Joe",
+      "PhoneNumbers": {
+        "HomePhone": "0860000000",
+        "MobilePhone": "0860000001",
+        "WorkPhone": "0860000002"
+      },
+      "BillingAddress": {
+        "Country": "Australia",
+        "State": "WA",
+        "Suburb": "Perth",
+        "Address": "1 Main St",
+        "Postcode": "6000"
+      },
+      "Email": "j.bloggs@domain.tld"
+    }
+}

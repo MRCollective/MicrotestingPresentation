@@ -1,18 +1,18 @@
 ﻿public class SuccessfulUserRegistrationScenario : SubcutaneousMvcTest<UserRegistrationController>
 {
-    public void GivenValidUserRegistrationData()
+    public void GivenValidUserRegistrationDataHasBeenEntered()
     {
-        _viewModel = Builder<UserRegistrationViewModel>.CreateNew().Build();
+        _userRegistrationData = ObjectMother.UserRegistrationData.Valid.Build();
     }
 
     public void WhenRegisteringTheUser()
     {
-        ExecuteControllerAction(c => c.Index(_viewModel));
+        ExecuteControllerAction(c => c.Index(_userRegistrationData));
 
         _savedUser = VerifyDbContext.Users.SingleOrDefault();
     }
 
-    public void ThenRedirectUserToSuccessPage()
+    public void ThenRedirectUserToRegistrationSuccessPage()
     {
         ActionResult.ShouldRedirectTo(c => c.Success);
     }
@@ -73,6 +73,6 @@
         sentEmail.Body.ShouldMatchApproved();
     }
     
-    private UserRegistrationViewModel _viewModel;
+    private UserRegistrationViewModel _userRegistrationData;
     private User _savedUser;
 }
