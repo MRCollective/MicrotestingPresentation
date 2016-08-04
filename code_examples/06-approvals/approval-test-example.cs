@@ -5,7 +5,7 @@ public class NBNVoipAndInternationalCallsCheckoutScenario : SubcutaneousMvcTest<
         _session = SeedContext.Sessions.Save(ObjectMother.Sessions.Default);
     }
 
-    public void AndGivenUserHasAddedNBNVoipAndnInternationalCallsBonusOption()
+    public void AndGivenUserHasAddedNBNVoipAndInternationalCallsBonusOption()
     {
         _session.AddToCart(ObjectMother.Products.NBN);
         _session.AddToCart(ObjectMother.Products.Voip);
