@@ -1,7 +1,7 @@
 Microtesting Presentation
 =========================
 
-[Download PowerPoint](https://github.com/MRCollective/MicrotestingPresentation/raw/master/Presentation.pptx)
+[Download PowerPoint](https://github.com/MRCollective/MicrotestingPresentation/raw/master/Presentation.pptx) | [Watch video](https://vimeo.com/189830215)
 
 Title
 -----
